@@ -1,0 +1,16 @@
+header{
+width: 100%;
+min-height: 200px;
+background: salmon;
+border-radius: 12px;
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+h1{
+    font-size: 3em;
+    color: ghostwhite;
+
+
+}
