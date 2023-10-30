@@ -1,7 +1,19 @@
-
+    import { useEffect } from 'react'
     import './addCoffee.css'
 
-    export default function AddCoffee(){
+    export default function AddCoffee({setCoffees}) {
+
+        const getCoffees = () => {
+            fetch('https://first-deployed-api-c12.web.app/coffees')
+            .then(res => res.json())
+            .then(data => setCoffees(data))
+            .catch(alert)
+
+        }
+
+        useEffect (() => {
+                getCoffees()
+        }, []) //ONE TIME AFTER THE COMPONENTS MOUNTS GET THE COFFEE
 
         const handleSubmit = (e)=>{
 
@@ -14,20 +26,31 @@
             const recipe = e.target.recipe.value 
             const description = e.target.description.value
 
-            const newCoffee = {name, recipe,description}
+
+            const newCoffee = {name, recipe, description}
             //console.log(newCoffee)
             //post newCopffee object to the API
-            fetch('https://first-deployed-api-c12.web.app/coffee',{
+            fetch('https://first-deployed-api-c12.web.app/coffees',{
             method:'POST',
             headers: {
-                "Content-type": 'applicatrion/json',
+                "Content-type": 'application/json',
 
             },
             body: JSON.stringify(newCoffee),
 
             })
-            .then(res => res.JSON())
-            .then(message => console.log(message))
+            .then(res => res.json())
+           
+            .then(data => {
+                if(data.message === "Success")
+
+                e.target.description.value =''
+                e.target.name.value = ''
+                e.target.recipe.value = ''
+
+                getCoffees()
+              } )
+            
 
             .catch(alert)
         }
@@ -38,19 +61,19 @@ return (
         <h2>Add a Coffee</h2>
         <form onSubmit={handleSubmit}>
             <label htmlFor="name">
-                name:
-                <input type='text' name="Name"/>
+                Name:
+                <input type='text' name="name"/>
 
             </label>
             <label htmlFor="recipe">
-                
-                <input type='text' name="Recipe"/>
+                Recipe:
+                <input type='text' name="recipe"/>
 
             </label>
             
             <label htmlFor="description">
-                name:
-                <input type='text' name="Description"/>
+            Description:
+                <input type='text' name="description"/>
 
             </label>
 
@@ -63,4 +86,4 @@ return (
 )
 
 
-}
+    }

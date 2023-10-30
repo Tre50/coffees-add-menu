@@ -9,8 +9,7 @@ align-items: center;
 
 }
 h1{
-    font-size: 3em;
+    font-size: cal(1em 12em);
     color: ghostwhite;
-
 
 }
